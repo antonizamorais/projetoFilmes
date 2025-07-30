@@ -5,7 +5,7 @@
 import Foundation
 
 // Estrutura para representar um filme
-struct Filme {
+struct Filme: Codable {
     let nome: String //Nome do filme
     let ano: Int //Ano de publicação do filme
     let sinopse: String // Sinopse do filme
@@ -15,7 +15,7 @@ struct Filme {
 }
 
 // Estrutura do login
-struct Usuario {
+struct Usuario: Codable {
     let nome: String
     let email: String
     let cpf: String
@@ -28,6 +28,59 @@ var filmes: [Filme] = []
 
 // Lista de usuários cadastrados
 var usuarios: [Usuario] = []
+
+//Usuario logado
+var usuarioLogado: Usuario? = nil
+
+// --- CONFIGURAÇÃO DE CAMINHOS PARA ARQUIVOS (NOVAS VARIÁVEIS GLOBAIS) ---
+let filmesArquivoURL: URL = {
+    let currentDirectory = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+    return currentDirectory.appendingPathComponent("filmes.json")
+}()
+
+let usuariosArquivoURL: URL = {
+    let currentDirectory = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+    return currentDirectory.appendingPathComponent("usuarios.json")
+}()
+
+// Funções de Persistência
+func salvarDados() {
+    do {
+        // Salvar filmes
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let filmesData = try encoder.encode(filmes)
+        try filmesData.write(to: filmesArquivoURL)
+
+        // Salvar usuários
+        let usuariosData = try encoder.encode(usuarios)
+        try usuariosData.write(to: usuariosArquivoURL)
+
+    } catch {
+        print("Erro ao salvar dados: \(error.localizedDescription)")
+    }
+}
+
+func carregarDados() {
+    do {
+        // Carregar filmes
+        if FileManager.default.fileExists(atPath: filmesArquivoURL.path) {
+            let filmesData = try Data(contentsOf: filmesArquivoURL)
+            let decoder = JSONDecoder()
+            filmes = try decoder.decode([Filme].self, from: filmesData)
+        }
+
+        // Carregar usuários
+        if FileManager.default.fileExists(atPath: usuariosArquivoURL.path) {
+            let usuariosData = try Data(contentsOf: usuariosArquivoURL)
+            let decoder = JSONDecoder()
+            usuarios = try decoder.decode([Usuario].self, from: usuariosData)
+        }
+
+    } catch {
+        print("Erro ao carregar dados: \(error.localizedDescription)")
+    }
+}
 
 // Função para cadastrar um filme
 // Lê o valor digitado em cada variável e verifica se está vazia,
@@ -152,8 +205,7 @@ func listarFilme() {
 
     print("\nVocê deseja:")
     print("Digite o número do filme para ver detalhes")
-    print("Ou digite 0 para procurar um filme")
-    print("Ou digite -1 para voltar ao menu")
+    print("Ou digite 0 para voltar ao menu")
 
     while true {
         print("Sua escolha:")
@@ -162,11 +214,8 @@ func listarFilme() {
             continue
         }
 
-        if escolha == -1 {
+        if escolha == 0 {
             return // Voltar ao menu
-        } else if escolha == 0 {
-            procurarFilme() // Ir para a busca
-            return
         } else if escolha > 0 && escolha <= filmes.count {
             let filmeEscolhido = filmes[escolha - 1]
             detalhesDoFilme(filme: filmeEscolhido) // <- Aqui está o uso da nova função
@@ -213,13 +262,12 @@ func procurarFilme() {
         }
 
         if escolha == 0 {
-            // Voltar para o menu
+            // Se a escolha for 0, simplesmente volta ao menu principal.
             return
-        } else if escolha > 0 && escolha <= encontrados.count {
-            let filmeEscolhido = encontrados[escolha - 1]
+        } else if escolha > 0 && escolha <= encontrados.count { // Garante que a escolha é um número positivo e válido
+            let filmeEscolhido = encontrados[escolha - 1] // Acessa o filme correto (ajustando o índice)
             detalhesDoFilme(filme: filmeEscolhido)
-            return
-            // Depois de mostrar detalhes, volta para a lista
+            return // Após mostrar os detalhes, volta ao menu principal.
         } else {
             print("Número inválido. Tente novamente.")
         }
@@ -250,7 +298,7 @@ func loginUsuario() {
 
 // Função para alugar filme
 func alugarFilme() {
-    guard let usuario = usuarioLogado else {
+     guard let _ = usuarioLogado else {
         print("Você precisa estar logado para alugar um filme.")
         return
     }
@@ -277,8 +325,15 @@ func alugarFilme() {
 
 // Função principal
 func menu() {
-    filmes.append(Filme(nome: "Titanic", ano: 1997, sinopse: "Um navio que afunda", genero: "Drama", diretor: "James Cameron", valor: 12.99))
+   // filmes.append(Filme(nome: "Titanic", ano: 1997, sinopse: "Um navio que afunda", genero: "Drama", diretor: "James Cameron", valor: 12.99))
     
+    // Usuários administradores (pré-cadastrados pelo programador)
+    //usuarios.append(Usuario(nome: "Admin", email: "admin@cinema.com", cpf: "00000000000", senha: "admin123", isAdmin: true))
+    // Usuários administradores (pré-cadastrados pelo programador)
+    //usuarios.append(Usuario(nome: "Admin2", email: "admin2@cinema.com", cpf: "11111111111", senha: "admin123", isAdmin: true))
+
+    carregarDados()  // Carrega os dados existentes do JSON
+
     while true {
         print("\n--- Menu ---")
         print("Escolha uma opção:")
@@ -297,8 +352,10 @@ func menu() {
             loginUsuario()
         case "2":
             cadastrarUsuario()
+            salvarDados()
         case "3":
             cadastrarFilme()
+            salvarDados()
         case "4":
             procurarFilme()
         case "5":
@@ -307,6 +364,7 @@ func menu() {
             alugarFilme()
         case "0":
             print("Saindo...")
+            salvarDados()
             return
         default:
             print("Opção inválida.")

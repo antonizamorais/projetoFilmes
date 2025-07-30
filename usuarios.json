@@ -1,0 +1,16 @@
+[
+  {
+    "cpf" : "00000000000",
+    "isAdmin" : true,
+    "email" : "admin@cinema.com",
+    "senha" : "admin123",
+    "nome" : "Admin"
+  },
+  {
+    "cpf" : "11111111111",
+    "isAdmin" : true,
+    "email" : "admin2@cinema.com",
+    "senha" : "admin123",
+    "nome" : "Admin2"
+  }
+]
