@@ -33,16 +33,17 @@ Deseja fazer login ou cadastro? (login/cadastro):
 
 ### Exemplo de dados salvos:
 #### Usuário
-```json
+```
 [
   {
     "email": "teste@exemplo.com",
     "senha": "123456"
   }
 ]
+````
 
 ## Filme
-
+```
 [
   {
     "nome": "Titanic",
@@ -53,10 +54,10 @@ Deseja fazer login ou cadastro? (login/cadastro):
     "valor": 9.90
   }
 ]
-
+```
 ---
 
-## Menu Proncipal
+## Menu Principal
 
 Após login bem- sucedido, será exibido:
 
@@ -67,7 +68,10 @@ Após login bem- sucedido, será exibido:
 4. Sair
 Escolha uma opção:
 
+---
+## Autor
 
+Projeto desenvolvido por [Anna Ruth e Antoniza]
 
 
 
