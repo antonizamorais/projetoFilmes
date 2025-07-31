@@ -62,11 +62,44 @@ Deseja fazer login ou cadastro? (login/cadastro):
 Após login bem- sucedido, será exibido:
 
 --- Menu ---
-1. Cadastrar filme
-2. Procurar filme
-3. Listar todos os filmes
-4. Sair
+1. Fazer Login
+2. Cadastrar novo usuário
+3.  Cadastrar filme
+4.  Procurar filme
+5.  Listar todos os filmes
+6.  Sair
 Escolha uma opção:
+
+## 1 Cadastrar filme
+O usuário informa os seguintes dados do filme:
+
+Nome
+
+Ano
+
+Gênero
+
+Diretor
+
+Sinopse
+
+Valor
+
+Esses dados são armazenados em um arquivo filmes.json para manter o histórico, mesmo após fechar o programa.
+
+## 2 Procurar filme
+Permite buscar um filme pelo nome.
+O sistema verifica o arquivo filmes.json e retorna:
+
+Informações detalhadas do filme (nome, ano, gênero, diretor, sinopse, valor)
+
+Se o filme não for encontrado, uma mensagem é exibida informando que ele não está cadastrado.
+
+## 3 Listar todos os filmes
+Exibe uma lista de todos os filmes cadastrados no sistema, mostrando os principais dados de cada um deles.
+
+## 4 Sair
+Encerra a execução do programa.
 
 ---
 ## Autor
