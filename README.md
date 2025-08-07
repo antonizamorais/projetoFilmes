@@ -13,26 +13,22 @@ O sistema permite
 
 ---
 
-## Sistema de Login
+## Menu Principal
 
-Antes de acessar o menu principal, o sistema pergunta:
+Após login bem- sucedido, será exibido:
 
-Deseja fazer login ou cadastro? (login/cadastro):
+--- Menu ---
+1. Fazer Login
+2. Cadastrar novo usuário
+3. Cadastrar filme
+4. Procurar filme
+5. Listar todos os filmes
+6. Sair
+Escolha uma opção
 
-
-- Caso **cadastro**, o sistema solicita um novo e-mail e senha e os salva em `usuarios.json`
-- Caso **login**, o sistema valida e-mail e senha com os dados já salvos
-- Se o login for bem-sucedido, o usuário acessa o menu de filmes
-
----
-
-## Estrutura dos Arquivos
-
-- `usuarios.json`: salva os dados de login (e-mail e senha)
-- `filmes.json`: salva os filmes cadastrados
-
-### Exemplo de dados salvos:
-#### Usuário
+## 1 Fazer Login
+- E-mail
+- Senha
 ```
 [
   {
@@ -41,36 +37,17 @@ Deseja fazer login ou cadastro? (login/cadastro):
   }
 ]
 ````
+O Sistema verifica os dados no arquivo usuarios.json. Se os dados estiverem corretos, o acesso é liberado. Caso contrário, uma mensagem de erro é exibida.
 
-## Filme
-```
-[
-  {
-    "nome": "Titanic",
-    "ano": 1997,
-    "sinopse": "Romance em meio a tragédia",
-    "genero": "Drama",
-    "diretor": "James Cameron",
-    "valor": 9.90
-  }
-]
-```
----
+## 2 Cadastrar novo usuário
+Permite adicionar um novo usuário ao sistema.
 
-## Menu Principal
+Campos exibidos:
+- E-mail
+- Senha
+Esse dados são armazenados no arquivo usuarios.json, que se gerencia os dados dos usuários registrados.
 
-Após login bem- sucedido, será exibido:
-
---- Menu ---
-1. Fazer Login
-2. Cadastrar novo usuário
-3.  Cadastrar filme
-4.  Procurar filme
-5.  Listar todos os filmes
-6.  Sair
-Escolha uma opção:
-
-## 1 Cadastrar filme
+## 3 Cadastrar filme
 O usuário informa os seguintes dados do filme:
 
 Nome
@@ -85,9 +62,23 @@ Sinopse
 
 Valor
 
+## Filme
+```
+[
+  {
+    "nome": "Titanic",
+    "ano": 1997,
+    "sinopse": "Romance em meio a tragédia",
+    "genero": "Drama",
+    "diretor": "James Cameron",
+    "valor": 9.90
+  }
+]
+```
+
 Esses dados são armazenados em um arquivo filmes.json para manter o histórico, mesmo após fechar o programa.
 
-## 2 Procurar filme
+## 4 Procurar filme
 Permite buscar um filme pelo nome.
 O sistema verifica o arquivo filmes.json e retorna:
 
@@ -95,10 +86,10 @@ Informações detalhadas do filme (nome, ano, gênero, diretor, sinopse, valor)
 
 Se o filme não for encontrado, uma mensagem é exibida informando que ele não está cadastrado.
 
-## 3 Listar todos os filmes
+## 5 Listar todos os filmes
 Exibe uma lista de todos os filmes cadastrados no sistema, mostrando os principais dados de cada um deles.
 
-## 4 Sair
+## 6 Sair
 Encerra a execução do programa.
 
 ---
